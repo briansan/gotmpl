@@ -9,9 +9,10 @@ RUN go build .
 ENTRYPOINT ["./gotmpl"]
 
 FROM scratch
-COPY --from=builder /app/gotmpl /
-COPY --from=builder /app/manifest.gotmpl /
-COPY --from=builder /app/args.yaml /
+COPY --from=builder /app/gotmpl /bin/gotmpl
+COPY --from=builder /app/manifest.gotmpl /var/manifest.gotmpl
+COPY --from=builder /app/args.yaml /var/args.yaml
+WORKDIR /var
 
-ENTRYPOINT ["/gotmpl"]
+ENTRYPOINT ["gotmpl"]
 CMD ["manifest.gotmpl", "args.yaml"]
